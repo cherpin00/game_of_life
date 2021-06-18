@@ -2,13 +2,15 @@
 // Created by Scott Fennell on 5/25/18.
 //
 
+#include <stdio.h>
+
 #ifndef CELLS_H
 #define CELLS_H
 
 
 /* takes argc and argv from main() and returns a pointer to the first command line argument.
  * if there was no command line argument, the default return value is "input.txt" */
-char *get_input_file_name(int argc, char **argv);
+char *get_input_file_name(int argc, const char **argv);
 
 /* gets the dimensions from the input file and puts them in the location pointed to by 'width' and 'height' */
 void get_dimensions(char *input_filename, unsigned int *width, unsigned int *height);
@@ -32,6 +34,12 @@ void print_2d_array(int **array, unsigned int width, unsigned int height);
 
 /*sleeps the process for 250ms. */
 void sleep_250_ms(void);
+
+//Print a progress line
+void print_line(int generation, int total);
+
+//Prints 2d array to a file descriptor
+void print_2d_array_to_fp(int **array, unsigned int width, unsigned int height, FILE* fp, int graphic);
 
 #endif //CELLS_H
 

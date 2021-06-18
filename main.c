@@ -86,11 +86,6 @@ void board_print(const struct Board* board) {
 }
 //End Board
 
-//Utils
-void print_line(int generation, int total) {
-    printf("----------------------------------: generation %i/%i\n", generation, total);
-}
-
 //Tests
 int test_check_alive() {
     char* filename = "input.txt";
@@ -109,7 +104,7 @@ int test_check_alive() {
     return 0;
 }
 
-int tests_update() {
+int tests_update() { //TODO: Implement.
     char* filename;
     struct Board board1, board3;
     board_constructor(&board1, "test1.txt");
@@ -131,7 +126,8 @@ int tests_update() {
 //End tests
 
 int main(int argc, char const *argv[])
-{      
+{     
+    //Tests
     if (test_check_alive() != 0) {
         printf("ERROR:function check_alive failed\n");
         return -1;
@@ -141,17 +137,25 @@ int main(int argc, char const *argv[])
         return -1;
     }
 
+    //Load board
     char* filename;
     struct Board board;
     filename = get_input_file_name(argc, argv);
     board_constructor(&board, filename);
 
+    //Simulation
     for (int i=0; i<board.generations; i++) {
         board_print(&board);
         board_update(&board);
         sleep_250_ms();
     }
 
+    //Write output to file
+    FILE* fp = fopen("output.txt", "w");
+    print_2d_array_to_fp(board.array, board.width, board.height, fp, 1);
+    fclose(fp);
+
+    //Free memory
     board_deconstructor(&board);
     
     return 0;
